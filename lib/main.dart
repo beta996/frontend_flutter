@@ -58,11 +58,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   uploadImage() async{
     var client = new HttpClient();
-    var clientHTTP = await client.get('127.0.0.1', 5000, '/upload');
-    final request = http.MultipartRequest("POST", Uri.parse("http://127.0.0.1:5000/upload"));
+    //var clientHTTP = await client.get('127.0.0.1', 5000, '/upload');
+    final request = http.MultipartRequest("POST", Uri.parse("http://10.0.2.2:5000/upload"));
     //final request = http.MultipartRequest("POST", clientHTTP));
 
-    final headers = {"Content-type:":"multipart/form-data"};
+    final headers = {"Content-type":"multipart/form-data"};
     request.files.add(http.MultipartFile('image',selectedImage!.readAsBytes().asStream(),selectedImage!.lengthSync(), filename: selectedImage!.path.split("/").last));
     request.headers.addAll(headers);
     final response = await request.send();
