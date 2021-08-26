@@ -72,11 +72,33 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
 
     });
+    selectedImage = null;
+    setState(() {
+
+    });
   }
 
 
-  Future getImage() async {
+  Future getImageFromGallery() async {
+    //PickedFile? pickedImage = await ImagePicker().getImage(source: ImageSource.camera);
+    PickedFile? pickedImage = await ImagePicker().getImage(source: ImageSource.gallery);
+
+
+
+    setState(() {
+      selectedImage = File(pickedImage!.path);
+    });
+    uploadImage();
+    // Directory appDocDir = await getApplicationDocumentsDirectory();
+    // String bgPath = appDocDir.uri.resolve("background.jpg").path;
+    // File bgFile = await pickedImage.copy(bgPath);
+
+  }
+
+  Future getImageFromCamera() async {
     PickedFile? pickedImage = await ImagePicker().getImage(source: ImageSource.camera);
+    //PickedFile? pickedImage = await ImagePicker().getImage(source: ImageSource.gallery);
+
 
 
     setState(() {
@@ -99,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
         appBar: AppBar(
-          title: Text("Image Picker"),
+          title: Text("Upload RAL"),
         ),
         body: Container(
             child: selectedImage == null
@@ -109,13 +131,34 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
 
-                  RaisedButton(
-                    color: Colors.lightGreenAccent,
+                  TextButton.icon(
+                    icon: Icon(Icons.photo_camera),
                     onPressed: () {
-                      getImage();
+                      getImageFromCamera();
                     },
-                    child: Text("PICK FROM CAMERA"),
+                    label: Text("PICK FROM CAMERA"),
+                    style: TextButton.styleFrom(
+
+                        primary: Colors.blue,
+                        backgroundColor: Colors.white70
+
+                    ),
+                  ),
+
+                  TextButton.icon(
+                    icon: Icon(Icons.photo_album),
+                    onPressed: () {
+                      getImageFromGallery();
+                    },
+                    label: Text("PICK FROM GALLERY"),
+                      style: TextButton.styleFrom(
+
+                        primary: Colors.blue,
+                        backgroundColor: Colors.white
+
+                      ),
                   )
+
                 ],
               ),
             ) : Container(
